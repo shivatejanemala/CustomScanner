@@ -11,7 +11,7 @@
  *  @Beverly A. Sanders, 2019
  */
 
-package com.plp.dao;
+package scannerPackage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,11 +19,11 @@ import java.io.Reader;
 import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static scannerPackage.Token.Kind.*;
+
 import org.junit.jupiter.api.Test;
 
-import com.plp.dao.Scanner.LexicalException;
-
-import static com.plp.dao.Token.Kind.*;
+import scannerPackage.Scanner.LexicalException;
 
 class ScannerTest {
 	

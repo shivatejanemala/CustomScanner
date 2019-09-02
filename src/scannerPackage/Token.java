@@ -11,7 +11,7 @@
  *  @Beverly A. Sanders, 2019
  */
 
-package com.plp.dao;
+package scannerPackage;
 
 public class Token {
 	public enum Kind {

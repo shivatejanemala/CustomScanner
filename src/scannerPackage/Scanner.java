@@ -12,11 +12,10 @@
  * 
  *  @Beverly A. Sanders, 2019
  */
-package com.plp.dao;
+package scannerPackage;
 
 
-import static com.plp.dao.Token.Kind.*;
-
+import static scannerPackage.Token.Kind.*;
 
 import java.io.IOException;
 import java.io.Reader;
