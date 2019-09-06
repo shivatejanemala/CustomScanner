@@ -11,19 +11,21 @@
  *  @Beverly A. Sanders, 2019
  */
 
-package scannerPackage;
+package cop5556sp19;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
 
+import static cop5556sp19.Token.Kind.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static scannerPackage.Token.Kind.*;
 
 import org.junit.jupiter.api.Test;
 
-import scannerPackage.Scanner.LexicalException;
+import cop5556sp19.Scanner;
+import cop5556sp19.Token;
+import cop5556sp19.Scanner.LexicalException;
 
 class ScannerTest {
 	
