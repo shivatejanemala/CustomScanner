@@ -30,7 +30,8 @@ public class Scanner {
 	int numPos=-1;
 	int lineNo=0;
 	Kind kind;
-
+	StringBuilder sb;
+	
 	@SuppressWarnings("serial")
 	public static class LexicalException extends Exception {	
 		public LexicalException(String arg0) {
@@ -40,6 +41,7 @@ public class Scanner {
 	
 	public Scanner(Reader r) throws IOException {
 		this.r = r;
+		sb = new StringBuilder();
 	}
 
 
@@ -47,63 +49,148 @@ public class Scanner {
 		    //replace this code.  Just for illustration
 		char a ;String line="";
 		BufferedReader reader = new BufferedReader(r,10);
-		
+		Token t = new Token(EOF,"EOF",0,0);
 		if(testString == null) {
 			intializeInput(reader);
 		}
 		if(testString !=null) {
 			numPos +=1;
 		a = testString.charAt(numPos);
-		
-			System.out.print("character is "+a);
-			//char a = '';
-			//System.out.print("character is @ and value is "+(int)a);
-			switch(a) {
-			case '@': {
-				throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	//@
+	
+			System.out.println("character is "+a);
+			switch(kind) {
+			case NAME:
+				switch(a) {
+				case '0': {
+					t= new Token(INTLIT,"0",numPos,lineNo);
+						
+				}break;
+
+				case '@': {
+					throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	//@
+					}
+				case ',': {
+					kind = Kind.NAME;
+					t=new Token(COMMA,",",0,0);
 				}
-			case ',': {
-				kind = Kind.EOF;
-				return new Token(COMMA,",",0,0);
-			}
-			case ':': {
-				if (Kind.EOF.equals(kind)) {
+				break;
+				case ':': {
 					kind = Kind.COLON;
-					return (getNext());
-				}
-				else if(Kind.COLON.equals(kind)) {
-					kind = Kind.EOF;
-				return new Token(COLONCOLON,"::",0,0);
-				}
-				else {
-					throw new LexicalException("Error :- Invalid colon token found as "+a+" in line: "+ lineNo + " and position:"+numPos);
-				}
-			}
-			case '=': {
-				if (Kind.EOF.equals(kind)) {
+						return (getNext());
+					}
+				case '=': {
 					kind = Kind.REL_LE;
 					return (getNext());
+					}
+				case '+':{
+					t = new Token(OP_PLUS,"+",numPos,lineNo);
 				}
-				else if(Kind.REL_LE.equals(kind)) {
+				case '-':{
+					t = new Token(OP_MINUS,"-",numPos,lineNo);
+				}
+				case '*':{
+					t = new Token(OP_TIMES,"-",numPos,lineNo);
+				}
+				case '/':{
+					kind = Kind.OP_DIV;
+					return getNext();
+				}
+				default:{
+					if(Character.isJavaIdentifierStart(a)) {
+						kind = Kind.STRINGLIT;
+						sb.append((char)a);
+						return getNext();
+					}
+					else if(Character.isDigit(a)) {
+						kind = Kind.INTLIT;
+						sb.append((char)a);
+						return getNext();
+					}
+					throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	
+				}
+				}break;
+			case COLON :
+				{
+					if(Character.compare(':', a) ==0) {
+					kind = Kind.NAME;
+				t = new Token(COLONCOLON,"::",0,0);
+					}
+				}
+				break;
+			case REL_LE:{
 				kind = Kind.REL_EQEQ;
-				return new Token(REL_EQEQ,"==",0,0);
+				t = new Token(REL_EQEQ,"==",0,0);
+				break;}
+			case OP_DIV:{
+				if(Character.compare('/', a) !=0) {
+					numPos -=1;
+					t = new Token(OP_DIV,"/",numPos,lineNo);
 				}
 				else {
-					throw new LexicalException("Error :- Invalid equals token found as "+a+" in line: "+ lineNo + " and position:"+numPos);
+					t = new Token(OP_DIVDIV,"//",numPos,lineNo);
 				}
+				break;
 			}
-			default:{
-				throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	
+			case STRINGLIT:{
+				if(Character.isJavaIdentifierPart(a)) {
+				sb.append((char)a);
+				if(numPos != testString.length()-1){
+					return getNext();
+				}
+				else {
+					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
+				}
+				
+				}
+				else {
+					numPos-=1;
+					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
+				}
+				if(Character.compare('+', a)==0) {
+					kind = Kind.OP_PLUS;
+				}
+				break;
 			}
+			case INTLIT:{
+				if(Character.isDigit(a)) {
+				sb.append((char)a);
+				if(numPos != testString.length()-1){
+					return getNext();
+				}
+				else {
+					t = new Token(INTLIT,sb.toString(),numPos,lineNo);
+				}
+				
+				}
+				else {
+					numPos-=1;
+					t = new Token(INTLIT,sb.toString(),numPos,lineNo);
+				}
+				break;
+			}
+			case OP_PLUS:{
+				kind = Kind.NAME;
+				t = new Token(OP_PLUS,"+",numPos,lineNo);
+				break;
+			}
+				
+				
 			}
 		 }
-		return new Token(EOF,"EOF",0,0);
+		checkForKeyWords(t);
+		return t;
 }
+
+
+	private void checkForKeyWords(Token t) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	private void intializeInput(BufferedReader r) throws Exception {
 		String line = r.readLine();
 		testString = line;	
-		kind = Kind.EOF;
+		kind = Kind.NAME;
 	}
 	}

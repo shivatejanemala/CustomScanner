@@ -114,5 +114,61 @@ class ScannerTest {
 		assertEquals(t.kind,REL_EQEQ);
 		assertEquals(t.text,"==");
 	}
-
+	
+	/**
+	 * Another example.  This test case will fail with the provided code, but should pass in your completed Scanner.
+	 * @throws Exception
+	 */
+	@Test
+	void test4() throws Exception {
+		Reader r = new StringReader("ass");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"ass");
+		
+	}
+	
+	@Test
+	void test5() throws Exception {
+		Reader r = new StringReader("123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+	
+	}
+	
+	@Test
+	void test6() throws Exception {
+		Reader r = new StringReader("abc+");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_PLUS);
+		assertEquals(t.text,"+");
+		
+	}
+	
+	@Test
+	void test7() throws Exception {
+		Reader r = new StringReader("abc+1");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_PLUS);
+		assertEquals(t.text,"+");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"1");
+		
+	}
 }
