@@ -157,7 +157,7 @@ class ScannerTest {
 	
 	@Test
 	void test7() throws Exception {
-		Reader r = new StringReader("abc+1");
+		Reader r = new StringReader("abc+123");
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
@@ -168,7 +168,177 @@ class ScannerTest {
 		assertEquals(t.text,"+");
 		show(t= s.getNext());
 		assertEquals(t.kind,INTLIT);
-		assertEquals(t.text,"1");
-		
+		assertEquals(t.text,"123");
 	}
+	
+	@Test
+	void test8() throws Exception {
+		Reader r = new StringReader("abc-123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_MINUS);
+		assertEquals(t.text,"-");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	
+	@Test
+	void test9() throws Exception {
+		Reader r = new StringReader("abc*123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_TIMES);
+		assertEquals(t.text,"*");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	
+	@Test
+	void test10() throws Exception {
+		Reader r = new StringReader("abc/123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_DIV);
+		assertEquals(t.text,"/");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	
+	@Test
+	void test11() throws Exception {
+		Reader r = new StringReader("abc%123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_MOD);
+		assertEquals(t.text,"%");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	
+	@Test
+	void test12() throws Exception {
+		Reader r = new StringReader("abc^123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_POW);
+		assertEquals(t.text,"^");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test13() throws Exception {
+		Reader r = new StringReader("abc#123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_HASH);
+		assertEquals(t.text,"#");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test14() throws Exception {
+		Reader r = new StringReader("abc&123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,BIT_AMP);
+		assertEquals(t.text,"&");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	
+	@Test
+	void test15() throws Exception {
+		Reader r = new StringReader("abc~123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,BIT_XOR);
+		assertEquals(t.text,"~");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test16() throws Exception {
+		Reader r = new StringReader("abc|123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,BIT_OR);
+		assertEquals(t.text,"|");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test17() throws Exception {
+		Reader r = new StringReader("abc:123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,COLON);
+		assertEquals(t.text,":");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test18() throws Exception {
+		Reader r = new StringReader("abc//123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_DIVDIV);
+		assertEquals(t.text,"//");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
 }
