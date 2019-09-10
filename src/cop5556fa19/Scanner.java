@@ -12,16 +12,16 @@
  * 
  *  @Beverly A. Sanders, 2019
  */
-package cop5556sp19;
+package cop5556fa19;
 
 
-import static cop5556sp19.Token.Kind.*;
+import static cop5556fa19.Token.Kind.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
-import cop5556sp19.Token.Kind;
+import cop5556fa19.Token.Kind;
 
 public class Scanner {
 	
@@ -69,51 +69,90 @@ public class Scanner {
 				case '@': {
 					throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	//@
 					}
+				
 				case ',': {
 					kind = Kind.START;
-					t=new Token(COMMA,",",0,0);
+					t=new Token(COMMA,",",numPos,lineNo);
 				}
 				break;
 				case ':': {
 					kind = Kind.COLON;
 						return (getNext());
 					}
+				case '.': {
+					kind = Kind.DOT;
+					return (getNext());
+				}
 				case '=': {
 					kind = Kind.ASSIGN;
 					return (getNext());
 					}
 				case '+':{
 					t = new Token(OP_PLUS,"+",numPos,lineNo);
+					break;
 				}
 				case '-':{
 					t = new Token(OP_MINUS,"-",numPos,lineNo);
+					break;
 				}
 				case '*':{
 					t = new Token(OP_TIMES,"-",numPos,lineNo);
+					break;
 				}
 				case '^':{
 					t = new Token(OP_POW,"-",numPos,lineNo);
+					break;
 				}
 				case '#':{
 					t = new Token(OP_HASH,"-",numPos,lineNo);
+					break;
 				}
 				case '%':{
 					t = new Token(OP_MOD,"-",numPos,lineNo);
+					break;
 				}
 				case '&':{
 					t = new Token(BIT_AMP,"&",numPos,lineNo);
+					break;
 				}
 				case '/':{
 					kind = Kind.OP_DIV;
 					return getNext();
 				}
+				case '<':{
+					kind = Kind.REL_LT;
+					return getNext();
+				}
+				case '>':{
+					kind = Kind.REL_GT;
+					return getNext();
+				}
 				
 				case '~':{
-					t = new Token(BIT_XOR,"~",numPos,lineNo);
+					kind = Kind.BIT_XOR;
+					return getNext();
 				}
 				case '|':{
 					t = new Token(BIT_OR,"|",numPos,lineNo);
 				}
+				case '(':
+					t = new Token(LPAREN,"(",numPos,lineNo);
+					break;
+				case ')':
+					t = new Token(RPAREN,")",numPos,lineNo);
+					break;	
+				case '{':
+					t = new Token(LCURLY,"{",numPos,lineNo);
+					break;
+				case '}':
+					t = new Token(RCURLY,"}",numPos,lineNo);
+					break;
+				case '[':
+					t = new Token(LSQUARE,"[",numPos,lineNo);
+					break;
+				case ']':
+					t = new Token(RSQUARE,"]",numPos,lineNo);
+					break;
 				default:{
 					if(Character.isJavaIdentifierStart(a)) {
 						kind = Kind.STRINGLIT;
@@ -147,10 +186,6 @@ public class Scanner {
 					}
 				}
 				break;
-			case ASSIGN:{
-				kind = Kind.REL_EQEQ;
-				t = new Token(REL_EQEQ,"==",0,0);
-				break;}
 			case STRINGLIT:{
 				if(Character.isJavaIdentifierPart(a)) {
 				sb.append((char)a);
@@ -191,7 +226,7 @@ public class Scanner {
 					kind = Kind.BIT_AMP;
 				}
 				else if(Character.compare('~', a)==0) {
-					kind = Kind.BIT_XOR;
+					kind = Kind.START;
 				}
 				else if(Character.compare('|', a)==0) {
 					kind = Kind.BIT_OR;
@@ -199,8 +234,36 @@ public class Scanner {
 				else if(Character.compare(':', a)==0) {
 					kind = Kind.START;
 				}
+				else if(Character.compare('<', a)==0) {
+					kind = Kind.START;
+				}
+				else if(Character.compare('>', a)==0) {
+					kind = Kind.START;
+				}
+				else if(Character.compare('=', a)==0) {
+					kind = Kind.START;
+				}
+				else if(Character.compare('(', a)==0) {
+					kind = Kind.START;
+				}else if(Character.compare(')', a)==0) {
+					kind = Kind.START;
+				}else if(Character.compare('{', a)==0) {
+					kind = Kind.START;
+				}else if(Character.compare('}', a)==0) {
+					kind = Kind.START;
+				}else if(Character.compare('[', a)==0) {
+					kind = Kind.START;
+				}else if(Character.compare(']', a)==0) {
+					kind = Kind.START;
+				}
+				else if(Character.compare('.', a)==0) {
+					kind = Kind.START;
+				}
+				
 				break;
 			}
+			
+					
 			case INTLIT:{
 				if(Character.isDigit(a)) {
 				sb.append((char)a);
@@ -215,6 +278,61 @@ public class Scanner {
 				else {
 					numPos-=1;
 					t = new Token(INTLIT,sb.toString(),numPos,lineNo);
+				}
+				if(Character.compare('+', a)==0) {
+					kind = Kind.OP_PLUS;
+				}
+				else if(Character.compare('-', a)==0) {
+					kind = Kind.OP_MINUS;
+				}
+				else if(Character.compare('*', a)==0) {
+					kind = Kind.OP_TIMES;
+				}
+				else if(Character.compare('/', a)==0) {
+					kind = Kind.START;
+				}
+				else if(Character.compare('%', a)==0) {
+					kind = Kind.OP_MOD;
+				}
+				else if(Character.compare('^', a)==0) {
+					kind = Kind.OP_POW;
+				}
+				else if(Character.compare('#', a)==0) {
+					kind = Kind.OP_HASH;
+				}
+				else if(Character.compare('&', a)==0) {
+					kind = Kind.BIT_AMP;
+				}
+				else if(Character.compare('~', a)==0) {
+					kind = Kind.BIT_XOR;
+				}
+				else if(Character.compare('|', a)==0) {
+					kind = Kind.BIT_OR;
+				}
+				else if(Character.compare(':', a)==0) {
+					kind = Kind.START;
+				}
+				else if(Character.compare('<', a)==0) {
+					kind = Kind.START;
+				}
+				else if(Character.compare('>', a)==0) {
+					kind = Kind.START;
+				}
+				else if(Character.compare('=', a)==0) {
+					kind = Kind.START;
+				}
+				
+				break;
+			}
+			case ASSIGN:{
+				if(Character.compare('=', a)==0) {
+					kind = Kind.START;
+					t = new Token(REL_EQEQ,"==",numPos,lineNo);
+				}
+				else {
+					numPos-=1;
+					kind = Kind.START;
+					t = new Token(ASSIGN,"=",numPos,lineNo);
 				}
 				break;
 			}
@@ -249,6 +367,37 @@ public class Scanner {
 					numPos-=1;
 					t = new Token(OP_DIV,"/",numPos,lineNo);
 				}
+				break;
+			}
+			case DOT :
+			{
+				if(Character.compare('.', a) ==0) {
+				kind = Kind.START;
+				t = new Token(Kind.DOTDOT,"..",numPos,lineNo);
+				if(numPos!=testString.length()-1) {
+					kind = Kind.DOTDOT;
+					t = getNext();
+				}
+				}
+				else {
+					kind = Kind.START;
+					numPos-=1;
+					t = new Token(DOT,".",numPos,lineNo);
+				}
+				break;
+			}
+			case DOTDOT :
+			{
+				if(Character.compare('.', a) ==0) {
+					kind = Kind.START;
+					t = new Token(DOTDOTDOT,"...",numPos,lineNo);
+			}
+				else {
+					numPos-=1;
+					kind = Kind.START;
+					t = new Token(DOTDOT,"..",numPos,lineNo);
+			}
+				break;
 			}
 			case OP_MOD:{
 				if(Character.compare(a, '%')==0) {
@@ -279,11 +428,16 @@ public class Scanner {
 				}
 			}
 			case BIT_XOR:{
-				if(Character.compare(a, '~')==0) {
+				if(Character.compare(a, '=')==0) {
+					kind = Kind.START;
+					t = new Token(REL_NOTEQ,"~=",numPos,lineNo);
+				}
+				else {
+					numPos-=1;
 					kind = Kind.START;
 					t = new Token(BIT_XOR,"~",numPos,lineNo);
-					break;
 				}
+				break;
 			}
 			case BIT_OR:{
 				if(Character.compare(a, '|')==0) {
@@ -291,6 +445,44 @@ public class Scanner {
 					t = new Token(BIT_OR,"|",numPos,lineNo);
 					break;
 				}
+			}
+			case REL_LT:{
+				if(Character.compare(a, '<')==0) {
+					kind = Kind.START;
+					t = new Token(BIT_SHIFTL,"<<",numPos,lineNo);
+					break;
+				}
+				else if(Character.compare('=', a)==0) {
+					kind = Kind.START;
+					t = new Token(REL_LE,"<=",numPos,lineNo);
+					break;
+				}
+				else {
+					numPos-=1;
+					kind = Kind.START;
+					t = new Token(REL_LT,"<",numPos,lineNo);
+					break;
+				}
+			
+			}
+			case REL_GT:{
+				if(Character.compare(a, '>')==0) {
+					kind = Kind.START;
+					t = new Token(BIT_SHIFTR,">>",numPos,lineNo);
+					break;
+				}
+				else if(Character.compare('=', a)==0) {
+					kind = Kind.START;
+					t = new Token(REL_GE,">=",numPos,lineNo);
+					break;
+				}
+				else {
+					numPos-=1;
+					kind = Kind.START;
+					t = new Token(REL_GT,">",numPos,lineNo);
+					break;
+				}
+			
 			}
 				
 			}

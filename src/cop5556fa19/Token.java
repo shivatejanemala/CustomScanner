@@ -11,7 +11,7 @@
  *  @Beverly A. Sanders, 2019
  */
 
-package cop5556sp19;
+package cop5556fa19;
 
 public class Token {
 	public enum Kind {

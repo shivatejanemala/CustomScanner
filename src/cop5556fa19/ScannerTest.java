@@ -11,21 +11,23 @@
  *  @Beverly A. Sanders, 2019
  */
 
-package cop5556sp19;
+package cop5556fa19;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import static cop5556sp19.Token.Kind.*;
+import javax.print.DocFlavor.STRING;
+
+import static cop5556fa19.Token.Kind.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import cop5556sp19.Scanner;
-import cop5556sp19.Token;
-import cop5556sp19.Scanner.LexicalException;
+import cop5556fa19.Scanner;
+import cop5556fa19.Token;
+import cop5556fa19.Scanner.LexicalException;
 
 class ScannerTest {
 	
@@ -340,5 +342,294 @@ class ScannerTest {
 		show(t= s.getNext());
 		assertEquals(t.kind,INTLIT);
 		assertEquals(t.text,"123");
+		}
+	@Test
+	void test19() throws Exception {
+		Reader r = new StringReader("abc<<123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,BIT_SHIFTL);
+		assertEquals(t.text,"<<");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test20() throws Exception {
+		Reader r = new StringReader("abc<=123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,REL_LE);
+		assertEquals(t.text,"<=");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test21() throws Exception {
+		Reader r = new StringReader("abc<123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,REL_LT);
+		assertEquals(t.text,"<");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test22() throws Exception {
+		Reader r = new StringReader("abc>>123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,BIT_SHIFTR);
+		assertEquals(t.text,">>");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test23() throws Exception {
+		Reader r = new StringReader("abc>=123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,REL_GE);
+		assertEquals(t.text,">=");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test25() throws Exception {
+		Reader r = new StringReader("abc>123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,REL_GT);
+		assertEquals(t.text,">");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test26() throws Exception {
+		Reader r = new StringReader("abc=123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,ASSIGN);
+		assertEquals(t.text,"=");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test27() throws Exception {
+		Reader r = new StringReader("abc==123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,REL_EQEQ);
+		assertEquals(t.text,"==");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	@Test
+	void test28() throws Exception {
+		Reader r = new StringReader("abc~=123");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,REL_NOTEQ);
+		assertEquals(t.text,"~=");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		}
+	
+	@Test
+	void test29() throws Exception {
+		Reader r = new StringReader("(abc123)");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,LPAREN);
+		assertEquals(t.text,"(");
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc123");
+		show(t= s.getNext());
+		assertEquals(t.kind,RPAREN);
+		assertEquals(t.text,")");
+		}
+	@Test
+	void test30() throws Exception {
+		Reader r = new StringReader("{abc123}");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,LCURLY);
+		assertEquals(t.text,"{");
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc123");
+		show(t= s.getNext());
+		assertEquals(t.kind,RCURLY);
+		assertEquals(t.text,"}");
+		}
+	@Test
+	void test31() throws Exception {
+		Reader r = new StringReader("[abc123]");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,LSQUARE);
+		assertEquals(t.text,"[");
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc123");
+		show(t= s.getNext());
+		assertEquals(t.kind,RSQUARE);
+		assertEquals(t.text,"]");
+		}
+	@Test
+	void test32() throws Exception {
+		Reader r = new StringReader("[{()+()}]");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,LSQUARE);
+		assertEquals(t.text,"[");
+		show(t= s.getNext());
+		assertEquals(t.kind,LCURLY);
+		assertEquals(t.text,"{");
+		show(t= s.getNext());
+		assertEquals(t.kind,LPAREN);
+		assertEquals(t.text,"(");
+		show(t= s.getNext());
+		assertEquals(t.kind,RPAREN);
+		assertEquals(t.text,")");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_PLUS);
+		assertEquals(t.text,"+");
+		show(t= s.getNext());
+		assertEquals(t.kind,LPAREN);
+		assertEquals(t.text,"(");
+		show(t= s.getNext());
+		assertEquals(t.kind,RPAREN);
+		assertEquals(t.text,")");
+		show(t= s.getNext());
+		assertEquals(t.kind,RCURLY);
+		assertEquals(t.text,"}");
+		show(t= s.getNext());
+		assertEquals(t.kind,RSQUARE);
+		assertEquals(t.text,"]");
+		}
+	@Test
+	void test33() throws Exception {
+		Reader r = new StringReader("123+321");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"123");
+		show(t= s.getNext());
+		assertEquals(t.kind,OP_PLUS);
+		assertEquals(t.text,"+");
+		show(t= s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"321");
+		}
+	@Test
+	void test34() throws Exception {
+		Reader r = new StringReader("abc..def");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,DOTDOT);
+		assertEquals(t.text,"..");
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"def");
+		}
+	@Test
+	void test35() throws Exception {
+		Reader r = new StringReader("abc..def");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,DOTDOT);
+		assertEquals(t.text,"..");
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"def");
+		}
+	@Test
+	void test36() throws Exception {
+		Reader r = new StringReader("abc...def");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,DOTDOTDOT);
+		assertEquals(t.text,"...");
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"def");
+		}
+	@Test
+	void test37() throws Exception {
+		Reader r = new StringReader("abc...def;");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"abc");
+		show(t= s.getNext());
+		assertEquals(t.kind,DOTDOTDOT);
+		assertEquals(t.text,"...");
+		show(t= s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"def;");
 		}
 }
