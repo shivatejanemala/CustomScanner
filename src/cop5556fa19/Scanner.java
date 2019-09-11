@@ -56,6 +56,11 @@ public class Scanner {
 		if(testString !=null) {
 			numPos +=1;
 		a = testString.charAt(numPos);
+		
+		while(Character.compare(' ', a)==0) {
+		numPos+=1;
+		a=testString.charAt(numPos);
+		}
 	
 			System.out.println("character is "+a);
 			switch(kind) {
@@ -153,11 +158,13 @@ public class Scanner {
 				case ']':
 					t = new Token(RSQUARE,"]",numPos,lineNo);
 					break;
+				case ';':
+					t = new Token(SEMI,";",numPos,lineNo);
 				default:{
-					if(Character.isJavaIdentifierStart(a)) {
-						kind = Kind.STRINGLIT;
+					if(Character.isJavaIdentifierStart(a) && Character.compare('$', a)!=0 && Character.compare('_', a)!=0  ) {
+						kind = Kind.NAME;
 						sb.append((char)a);
-						t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
+						t = new Token(NAME,sb.toString(),numPos,lineNo);
 					}
 					else if(Character.isDigit(a)) {
 						kind = Kind.INTLIT;
@@ -186,20 +193,20 @@ public class Scanner {
 					}
 				}
 				break;
-			case STRINGLIT:{
-				if(Character.isJavaIdentifierPart(a)) {
+			case NAME:{
+				if(Character.isJavaIdentifierPart(a) || Character.compare('$', a)==0 ||Character.compare('_', a)==0 ||Character.compare(';', a)==0  ) {
 				sb.append((char)a);
-				if(numPos != testString.length()-1){
+				if(numPos != testString.length()-1 && Character.compare(';', a)!=0){
 					return getNext();
 				}
 				else {
-					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
+					t = new Token(NAME,sb.toString(),numPos,lineNo);
 				}
 				
 				}
 				else {
 					numPos-=1;
-					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
+					t = new Token(NAME,sb.toString(),numPos,lineNo);
 				}
 				if(Character.compare('+', a)==0) {
 					kind = Kind.OP_PLUS;

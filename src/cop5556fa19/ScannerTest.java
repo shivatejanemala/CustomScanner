@@ -127,7 +127,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"ass");
 		
 	}
@@ -149,7 +149,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_PLUS);
@@ -163,7 +163,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_PLUS);
@@ -179,7 +179,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_MINUS);
@@ -195,7 +195,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_TIMES);
@@ -211,7 +211,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_DIV);
@@ -227,7 +227,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_MOD);
@@ -243,7 +243,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_POW);
@@ -258,7 +258,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_HASH);
@@ -273,7 +273,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,BIT_AMP);
@@ -289,7 +289,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,BIT_XOR);
@@ -304,7 +304,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,BIT_OR);
@@ -319,7 +319,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,COLON);
@@ -334,7 +334,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,OP_DIVDIV);
@@ -349,7 +349,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,BIT_SHIFTL);
@@ -364,7 +364,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,REL_LE);
@@ -379,7 +379,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,REL_LT);
@@ -394,7 +394,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,BIT_SHIFTR);
@@ -409,7 +409,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,REL_GE);
@@ -424,7 +424,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,REL_GT);
@@ -439,7 +439,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,ASSIGN);
@@ -454,7 +454,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,REL_EQEQ);
@@ -469,7 +469,7 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,REL_NOTEQ);
@@ -488,7 +488,7 @@ class ScannerTest {
 		assertEquals(t.kind,LPAREN);
 		assertEquals(t.text,"(");
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc123");
 		show(t= s.getNext());
 		assertEquals(t.kind,RPAREN);
@@ -503,7 +503,7 @@ class ScannerTest {
 		assertEquals(t.kind,LCURLY);
 		assertEquals(t.text,"{");
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc123");
 		show(t= s.getNext());
 		assertEquals(t.kind,RCURLY);
@@ -518,7 +518,7 @@ class ScannerTest {
 		assertEquals(t.kind,LSQUARE);
 		assertEquals(t.text,"[");
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc123");
 		show(t= s.getNext());
 		assertEquals(t.kind,RSQUARE);
@@ -578,13 +578,13 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,DOTDOT);
 		assertEquals(t.text,"..");
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"def");
 		}
 	@Test
@@ -593,13 +593,13 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,DOTDOT);
 		assertEquals(t.text,"..");
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"def");
 		}
 	@Test
@@ -608,28 +608,41 @@ class ScannerTest {
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,DOTDOTDOT);
 		assertEquals(t.text,"...");
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"def");
 		}
 	@Test
 	void test37() throws Exception {
-		Reader r = new StringReader("abc...def;");
+		Reader r = new StringReader("abc...def;a");
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"abc");
 		show(t= s.getNext());
 		assertEquals(t.kind,DOTDOTDOT);
 		assertEquals(t.text,"...");
 		show(t= s.getNext());
-		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"def;");
+		show(t= s.getNext());
+		assertEquals(t.kind,NAME);
+		assertEquals(t.text,"a");
 		}
+	
+	@Test
+	void test38() throws Exception{
+		String file = "testInputFiles\\test2.input"; 
+		Reader r = new BufferedReader(new FileReader(file));
+		Scanner s = new Scanner(r);
+		Token t;
+        show(t=s.getNext());
+	
+	}
 }
