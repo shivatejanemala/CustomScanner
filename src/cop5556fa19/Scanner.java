@@ -58,7 +58,13 @@ public class Scanner {
 		}
 		if(testString !=null) {
 			numPos +=1;
-		a = testString.charAt(numPos);
+		if(numPos<testString.length()) 
+		{a = testString.charAt(numPos);}
+		else 
+		{
+			return new Token((Kind.START.compareTo(kind)==0)?EOF:kind,(Kind.START.compareTo(kind)==0)?"EOF":sb.toString(),numPos,lineNo);
+		}	
+		
 		
 		while(kind.START.equals(kind)&& Character.compare(' ', a)==0) {
 		numPos+=1;
@@ -77,11 +83,6 @@ public class Scanner {
 				case '@': {
 					throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	//@
 					}
-				case '"':{
-					kind = Kind.STRINGLIT;
-					params.append('"');
-					return getNext();
-				}
 				case '\\': {
 					numPos+=1;
 						char b = testString.charAt(numPos);
@@ -182,6 +183,12 @@ public class Scanner {
 					break;
 				case ';':
 					t = new Token(SEMI,";",numPos,lineNo);
+				case '"':{
+					kind = Kind.STRINGLIT;
+					params.append('"');
+					t= getNext();
+					break;
+					}
 				default:{
 					if(Character.isJavaIdentifierStart(a) && Character.compare('$', a)!=0 && Character.compare('_', a)!=0  ) {
 						kind = Kind.NAME;
@@ -228,6 +235,7 @@ public class Scanner {
 					return getNext();
 				}
 				else {
+					kind = START;
 					t = new Token(NAME,sb.toString(),numPos,lineNo);
 				}
 				
@@ -368,11 +376,18 @@ public class Scanner {
 			case STRINGLIT:{
 				if(Character.compare('"', a)==0){
 					params = removeLastOccurence(params,'"');
+					if(!"".equals(params.toString())){
+						throw new LexicalException("Invalid Number of quotes in the input");
+					}
 					kind = Kind.START;
 					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
 				}else {
 					sb.append((char)a);
-					return getNext();
+					t= getNext();
+					if(!"".equals(params.toString())){
+						throw new LexicalException("Invalid Number of quotes in the input");
+					}
+					return t;
 				}
 				break;
 			}

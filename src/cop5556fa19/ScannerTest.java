@@ -129,6 +129,12 @@ class ScannerTest {
 		show(t= s.getNext());
 		assertEquals(t.kind,NAME);
 		assertEquals(t.text,"ass");
+		show(t= s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+		show(t= s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
 		
 	}
 	
@@ -655,8 +661,11 @@ class ScannerTest {
 			Reader r = new BufferedReader(new FileReader(file));
 			Scanner s = new Scanner(r);
 			Token t;
-	        show(t=s.getNext());
+	       /* show(t=s.getNext());
 	        assertEquals(t.kind,STRINGLIT);
-			assertEquals(t.text,"abc");
+			assertEquals(t.text,"abc");*/
+			 assertThrows(LexicalException.class, ()->{
+				   s.getNext();
+		        });
 	}
 }
