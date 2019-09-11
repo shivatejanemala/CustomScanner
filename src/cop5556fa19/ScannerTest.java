@@ -80,7 +80,7 @@ class ScannerTest {
 	 * Example showing how to read the input from a file.  Otherwise it is the same as test1.
 	 *
 	 */
-	@Test
+	//@Test
 	void test2() throws Exception {
 		String file = "testInputFiles\\test2.input"; 
 		Reader r = new BufferedReader(new FileReader(file));
@@ -636,13 +636,27 @@ class ScannerTest {
 		assertEquals(t.text,"a");
 		}
 	
-	@Test
+	//@Test
 	void test38() throws Exception{
 		String file = "testInputFiles\\test2.input"; 
 		Reader r = new BufferedReader(new FileReader(file));
 		Scanner s = new Scanner(r);
 		Token t;
         show(t=s.getNext());
-	
+        assertEquals(t.kind,NAME);
+		assertEquals(t.text,"a");
+		show(t=s.getNext());
+        assertEquals(t.kind,NAME);
+		assertEquals(t.text,"b");
+		}
+	@Test
+	void test39() throws Exception{
+			String file = "testInputFiles\\test2.input"; 
+			Reader r = new BufferedReader(new FileReader(file));
+			Scanner s = new Scanner(r);
+			Token t;
+	        show(t=s.getNext());
+	        assertEquals(t.kind,STRINGLIT);
+			assertEquals(t.text,"abc");
 	}
 }

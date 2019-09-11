@@ -20,6 +20,8 @@ import static cop5556fa19.Token.Kind.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 import cop5556fa19.Token.Kind;
 
@@ -31,6 +33,7 @@ public class Scanner {
 	int lineNo=0;
 	Kind kind;
 	StringBuilder sb;
+	StringBuilder params = new StringBuilder();
 	
 	@SuppressWarnings("serial")
 	public static class LexicalException extends Exception {	
@@ -44,12 +47,12 @@ public class Scanner {
 		sb = new StringBuilder();
 	}
 
-
 	public Token getNext() throws Exception {
 		    //replace this code.  Just for illustration
 		char a ;String line="";
 		BufferedReader reader = new BufferedReader(r,10);
 		Token t = new Token(EOF,"EOF",0,0);
+		
 		if(testString == null) {
 			intializeInput(reader);
 		}
@@ -57,7 +60,7 @@ public class Scanner {
 			numPos +=1;
 		a = testString.charAt(numPos);
 		
-		while(Character.compare(' ', a)==0) {
+		while(kind.START.equals(kind)&& Character.compare(' ', a)==0) {
 		numPos+=1;
 		a=testString.charAt(numPos);
 		}
@@ -74,6 +77,25 @@ public class Scanner {
 				case '@': {
 					throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	//@
 					}
+				case '"':{
+					kind = Kind.STRINGLIT;
+					params.append('"');
+					return getNext();
+				}
+				case '\\': {
+					numPos+=1;
+						char b = testString.charAt(numPos);
+						switch(b) {
+						/*case 'a':case 'b':case 'f':case 'n':case 'r':case 't':case 'v':case '\\':{
+							return t;
+						}*/
+						case 'n':{
+							sb.append("\n");
+						}
+							
+						}
+						
+				}
 				
 				case ',': {
 					kind = Kind.START;
@@ -194,6 +216,12 @@ public class Scanner {
 				}
 				break;
 			case NAME:{
+				if(Character.compare(' ', a)==0) {
+					kind = Kind.START;
+					t= new Token(NAME,sb.toString(),numPos-1,lineNo);
+					sb = new StringBuilder();
+					return t;
+				}
 				if(Character.isJavaIdentifierPart(a) || Character.compare('$', a)==0 ||Character.compare('_', a)==0 ||Character.compare(';', a)==0  ) {
 				sb.append((char)a);
 				if(numPos != testString.length()-1 && Character.compare(';', a)!=0){
@@ -272,6 +300,12 @@ public class Scanner {
 			
 					
 			case INTLIT:{
+				if(Character.compare(' ', a)==0) {
+					kind = Kind.START;
+					t= new Token(INTLIT,sb.toString(),numPos-1,lineNo);
+					sb = new StringBuilder();
+					return t;
+				}
 				if(Character.isDigit(a)) {
 				sb.append((char)a);
 					if(numPos != testString.length()-1){
@@ -329,6 +363,17 @@ public class Scanner {
 					kind = Kind.START;
 				}
 				
+				break;
+			}
+			case STRINGLIT:{
+				if(Character.compare('"', a)==0){
+					params = removeLastOccurence(params,'"');
+					kind = Kind.START;
+					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
+				}else {
+					sb.append((char)a);
+					return getNext();
+				}
 				break;
 			}
 			case ASSIGN:{
@@ -495,14 +540,50 @@ public class Scanner {
 			}
 		 }
 		sb = new StringBuilder();
+		if(!"".equals(params.toString())) {
+			throw new LexicalException("Invalid token due to incomplete quotes");
+		}
 		checkForKeyWords(t);
 		return t;
 }
 
 
+	
+
+	private StringBuilder removeLastOccurence(StringBuilder params,char a) {
+		String params1 = params.toString();
+		int index = params1.lastIndexOf(a);
+		params = params.deleteCharAt(index);
+		return params;
+	}
+
 	private void checkForKeyWords(Token t) {
-		// TODO Auto-generated method stub
-		
+		if(t.kind.equals(NAME)) {
+			switch(t.text){
+				case "and": t = new Token(KW_and,t.text,numPos,lineNo);break;
+				case "break": t = new Token(KW_break,t.text,numPos,lineNo);break;
+				case "do": t = new Token(KW_do,t.text,numPos,lineNo);break;
+				case "else": t = new Token(KW_else,t.text,numPos,lineNo);break;
+				case "elseif": t = new Token(KW_elseif,t.text,numPos,lineNo);break;
+				case "end": t = new Token(KW_end,t.text,numPos,lineNo);break;
+				case "false": t = new Token(KW_false,t.text,numPos,lineNo);break;
+				case "for": t = new Token(KW_for,t.text,numPos,lineNo);break;
+				case "function": t = new Token(KW_function,t.text,numPos,lineNo);break;
+				case "if": t = new Token(KW_if,t.text,numPos,lineNo);break;
+				case "in": t = new Token(KW_in,t.text,numPos,lineNo);break;
+				case "local": t = new Token(KW_local,t.text,numPos,lineNo);break;
+				case "nil": t = new Token(KW_nil,t.text,numPos,lineNo);break;
+				case "not": t = new Token(KW_not,t.text,numPos,lineNo);break;
+				case "or": t = new Token(KW_or,t.text,numPos,lineNo);break;
+				case "repeat": t = new Token(KW_repeat,t.text,numPos,lineNo);break;
+				case "return": t = new Token(KW_return,t.text,numPos,lineNo);break;
+				case "then": t = new Token(KW_then,t.text,numPos,lineNo);break;
+				case "true": t = new Token(KW_true,t.text,numPos,lineNo);break;
+				case "until": t = new Token(KW_until,t.text,numPos,lineNo);break;
+				case "while": t = new Token(KW_while,t.text,numPos,lineNo);break;
+				
+			}
+		}
 	}
 
 
