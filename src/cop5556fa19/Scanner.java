@@ -84,18 +84,22 @@ public class Scanner {
 					throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	//@
 					}
 				case '\\': {
+					//kind = Kind.ESCSEQ;
 					numPos+=1;
-						char b = testString.charAt(numPos);
-						switch(b) {
-						/*case 'a':case 'b':case 'f':case 'n':case 'r':case 't':case 'v':case '\\':{
-							return t;
-						}*/
-						case 'n':{
-							sb.append("\n");
+					a = testString.charAt(numPos);
+					switch(a) {
+					case 'n': case 'r':case 't':case 'f': {
+						kind = Kind.START;
+						t= new Token(kind,sb.toString(),numPos,lineNo);
+						sb = new StringBuilder();
+						return t;
 						}
-							
-						}
-						
+					default: {
+						kind = Kind.START;
+						throw new LexicalException("Invalid line terminator : \\"+a+"found at numPos: "+numPos+" and LineNo: "+lineNo);
+					}
+					}
+					
 				}
 				
 				case ',': {
@@ -189,6 +193,13 @@ public class Scanner {
 					t= getNext();
 					break;
 					}
+				case '\'':{
+					kind = Kind.STRINGLIT;
+					params.append('\'');
+					t= getNext();
+					break;
+					}
+
 				default:{
 					if(Character.isJavaIdentifierStart(a) && Character.compare('$', a)!=0 && Character.compare('_', a)!=0  ) {
 						kind = Kind.NAME;
@@ -239,6 +250,25 @@ public class Scanner {
 					t = new Token(NAME,sb.toString(),numPos,lineNo);
 				}
 				
+				}
+				else if(Character.compare('\\', a)==0) {
+					//kind = Kind.ESCSEQ;
+					numPos+=1;
+					a = testString.charAt(numPos);
+					switch(a) {
+					case 'n': case 'r':case 't':case 'f': {
+						if(Character.compare('n', a)==0) {lineNo+=1;}
+						t= new Token(kind,sb.toString(),numPos,lineNo);
+						kind = Kind.START;
+						sb = new StringBuilder();
+						return t;
+						}
+					default: {
+						kind = Kind.START;
+						throw new LexicalException("Invalid line terminator : \\"+a+"found at numPos: "+numPos+" and LineNo: "+lineNo);
+					}
+					}
+					
 				}
 				else {
 					numPos-=1;
@@ -374,23 +404,73 @@ public class Scanner {
 				break;
 			}
 			case STRINGLIT:{
-				if(Character.compare('"', a)==0){
+				if(Character.compare('"', a)==0){ 	//proper checking for opening and closing of quotes
 					params = removeLastOccurence(params,'"');
 					if(!"".equals(params.toString())){
 						throw new LexicalException("Invalid Number of quotes in the input");
 					}
 					kind = Kind.START;
 					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
-				}else {
-					sb.append((char)a);
-					t= getNext();
+				}
+				else if(Character.compare('\'', a)==0){ 	//proper checking for opening and closing of quotes
+					params = removeLastOccurence(params,'\'');
 					if(!"".equals(params.toString())){
 						throw new LexicalException("Invalid Number of quotes in the input");
 					}
+					kind = Kind.START;
+					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
+				}
+				else if(Character.compare('\\', a)==0) { //ESCAPE SEQ for string literal
+					numPos+=1;
+					a = testString.charAt(numPos);
+					switch(a) {
+					
+					case 'a':{
+						sb.append((char)7);
+						return getNext();
+					}
+					case 'b':{
+						sb.append("\u5C62");
+						return getNext();
+					}
+					case 'f':{
+						sb.append("\u5C62");
+						return getNext();
+					}
+					case 'n':{
+						lineNo+=1;
+						sb.append("\n");
+						return getNext();
+					}
+					case 'r':{
+						sb.append("\u5C62");
+						return getNext();
+					}
+					case 't':{
+						sb.append("\u5C62");
+						return getNext();
+					}
+					case 'v':{
+						sb.append("\u5C62");
+						return getNext();
+					}
+					case '\\':{
+						sb.append("\u5C62");
+						return getNext();
+					}
+					}
+				}
+					else {
+					sb.append((char)a);
+					t= getNext();
+					/*if(!"".equals(params.toString())){
+						throw new LexicalException("Invalid Number of quotes in the input");
+					}*/
 					return t;
 				}
 				break;
 			}
+			
 			case ASSIGN:{
 				if(Character.compare('=', a)==0) {
 					kind = Kind.START;
@@ -558,7 +638,7 @@ public class Scanner {
 		if(!"".equals(params.toString())) {
 			throw new LexicalException("Invalid token due to incomplete quotes");
 		}
-		checkForKeyWords(t);
+		if(!t.kind.equals(STRINGLIT)) {checkForKeyWords(t);}
 		return t;
 }
 

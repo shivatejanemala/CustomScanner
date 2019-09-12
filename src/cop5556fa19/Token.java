@@ -17,6 +17,7 @@ public class Token {
 	public enum Kind {
 		START,
 		NAME,
+		ESCSEQ,
 		INTLIT,
 		KW_and,
 		KW_break,
