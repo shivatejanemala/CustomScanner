@@ -705,8 +705,13 @@ public class Scanner {
 
 
 	private void intializeInput(BufferedReader r) throws Exception {
-		String line = r.readLine();
-		testString = line;	
+		 int input;
+		 StringBuilder sb=new StringBuilder();
+	        while ((input = r.read()) != -1) {
+	            char ch = (char) input;
+	            sb.append(ch);
+	        }
+		testString = sb.toString();	
 		kind = Kind.START;
 	}
 	}

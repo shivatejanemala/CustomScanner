@@ -778,4 +778,15 @@ class ScannerTest {
         assertEquals(t.kind,EOF);
 		assertEquals(t.text,"EOF");
 	}
+	
+	@Test
+	void test48() throws Exception{
+
+		String file = "testInputFiles\\test2.input"; 
+		Reader r = new BufferedReader(new FileReader(file));
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t=s.getNext());
+        
+	}
 }
