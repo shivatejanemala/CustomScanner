@@ -18,6 +18,7 @@ public class Token {
 		START,
 		NAME,
 		ESCSEQ,
+		COMMENT,
 		INTLIT,
 		KW_and,
 		KW_break,

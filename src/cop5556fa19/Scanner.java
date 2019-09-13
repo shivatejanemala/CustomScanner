@@ -124,8 +124,8 @@ public class Scanner {
 					break;
 				}
 				case '-':{
-					t = new Token(OP_MINUS,"-",numPos,lineNo);
-					break;
+					kind = kind.OP_MINUS;
+					return getNext();
 				}
 				case '*':{
 					t = new Token(OP_TIMES,"-",numPos,lineNo);
@@ -136,7 +136,7 @@ public class Scanner {
 					break;
 				}
 				case '#':{
-					t = new Token(OP_HASH,"-",numPos,lineNo);
+					t = new Token(OP_HASH,"#",numPos,lineNo);
 					break;
 				}
 				case '%':{
@@ -278,7 +278,7 @@ public class Scanner {
 					kind = Kind.OP_PLUS;
 				}
 				else if(Character.compare('-', a)==0) {
-					kind = Kind.OP_MINUS;
+					kind = Kind.START;
 				}
 				else if(Character.compare('*', a)==0) {
 					kind = Kind.OP_TIMES;
@@ -362,7 +362,7 @@ public class Scanner {
 					kind = Kind.OP_PLUS;
 				}
 				else if(Character.compare('-', a)==0) {
-					kind = Kind.OP_MINUS;
+					kind = Kind.START;
 				}
 				else if(Character.compare('*', a)==0) {
 					kind = Kind.OP_TIMES;
@@ -430,11 +430,11 @@ public class Scanner {
 						return getNext();
 					}
 					case 'b':{
-						sb.append("\u5C62");
+						sb.append((char)8);
 						return getNext();
 					}
 					case 'f':{
-						sb.append("\u5C62");
+						sb.append((char)12);
 						return getNext();
 					}
 					case 'n':{
@@ -443,19 +443,27 @@ public class Scanner {
 						return getNext();
 					}
 					case 'r':{
-						sb.append("\u5C62");
+						sb.append((char)13);
 						return getNext();
 					}
 					case 't':{
-						sb.append("\u5C62");
+						sb.append((char)9);
 						return getNext();
 					}
 					case 'v':{
-						sb.append("\u5C62");
+						sb.append((char)11);
 						return getNext();
 					}
 					case '\\':{
-						sb.append("\u5C62");
+						sb.append("\\");
+						return getNext();
+					}
+					case '\"':{
+						sb.append('"');
+						return getNext();
+					}
+					case '\'':{
+						sb.append('\'');
 						return getNext();
 					}
 					}
@@ -491,10 +499,23 @@ public class Scanner {
 				}
 			}
 			case OP_MINUS:{
-				if(Character.compare(a, '-')==0) {
+				if(Character.compare(a, '-')!=0) {
+					numPos-=1;
 					kind = Kind.START;
 					t = new Token(OP_MINUS,"-",numPos,lineNo);
 					break;
+				}
+				else {
+					kind=Kind.START;
+					while(numPos!=testString.length()-1) {
+												numPos+=1;
+											if(Character.compare('\\',testString.charAt(numPos))!=0 && (Character.compare('n', testString.charAt(numPos))==0)||
+							Character.compare('r', testString.charAt(numPos))==0){
+								break;
+							}
+							
+					}
+					return getNext();
 				}
 			}
 			case OP_TIMES:{

@@ -751,4 +751,31 @@ class ScannerTest {
         assertEquals(t.kind,EOF);
 		assertEquals(t.text,"EOF");
 	}
+	
+	@Test
+	void test46() throws Exception{
+
+		Reader r = new StringReader("--abc");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t=s.getNext());
+        assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+		show(t=s.getNext());
+        assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+	}
+	@Test
+	void test47() throws Exception{
+
+		Reader r = new StringReader("--abc\\ndef");
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t=s.getNext());
+        assertEquals(t.kind,NAME);
+		assertEquals(t.text,"def");
+		show(t=s.getNext());
+        assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+	}
 }
