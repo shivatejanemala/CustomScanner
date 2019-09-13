@@ -358,6 +358,7 @@ public class Scanner {
 					numPos-=1;
 					t = new Token(INTLIT,sb.toString(),numPos,lineNo);
 				}
+				
 				if(Character.compare('+', a)==0) {
 					kind = Kind.OP_PLUS;
 				}
@@ -426,15 +427,15 @@ public class Scanner {
 					switch(a) {
 					
 					case 'a':{
-						sb.append((char)7);
+						sb.append("\\u0007");
 						return getNext();
 					}
 					case 'b':{
-						sb.append((char)8);
+						sb.append("\\u0008");
 						return getNext();
 					}
 					case 'f':{
-						sb.append((char)12);
+						sb.append("\\u0012");
 						return getNext();
 					}
 					case 'n':{
@@ -443,15 +444,15 @@ public class Scanner {
 						return getNext();
 					}
 					case 'r':{
-						sb.append((char)13);
+						sb.append("\\u0013");
 						return getNext();
 					}
 					case 't':{
-						sb.append((char)9);
+						sb.append("\\u0009");
 						return getNext();
 					}
 					case 'v':{
-						sb.append((char)11);
+						sb.append("\\u00011");
 						return getNext();
 					}
 					case '\\':{
