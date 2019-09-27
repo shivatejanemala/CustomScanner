@@ -128,11 +128,11 @@ public class Scanner {
 					return getNext();
 				}
 				case '*':{
-					t = new Token(OP_TIMES,"-",numPos,lineNo);
+					t = new Token(OP_TIMES,"*",numPos,lineNo);
 					break;
 				}
 				case '^':{
-					t = new Token(OP_POW,"-",numPos,lineNo);
+					t = new Token(OP_POW,"^",numPos,lineNo);
 					break;
 				}
 				case '#':{
@@ -140,7 +140,7 @@ public class Scanner {
 					break;
 				}
 				case '%':{
-					t = new Token(OP_MOD,"-",numPos,lineNo);
+					t = new Token(OP_MOD,"%",numPos,lineNo);
 					break;
 				}
 				case '&':{
@@ -153,19 +153,29 @@ public class Scanner {
 				}
 				case '<':{
 					kind = Kind.REL_LT;
-					return getNext();
+					sb.append("<");
+					t= getNext();
+					kind = Kind.START;
+					break;
 				}
 				case '>':{
 					kind = Kind.REL_GT;
-					return getNext();
+					sb.append(">");
+					t= getNext();
+					kind = Kind.START;
+					break;
 				}
 				
 				case '~':{
 					kind = Kind.BIT_XOR;
-					return getNext();
+					sb.append("|");
+					t= getNext();
+					kind = Kind.START;
+					break;
 				}
 				case '|':{
 					t = new Token(BIT_OR,"|",numPos,lineNo);
+					break;
 				}
 				case '(':
 					t = new Token(LPAREN,"(",numPos,lineNo);
@@ -187,8 +197,10 @@ public class Scanner {
 					break;
 				case ';':
 					t = new Token(SEMI,";",numPos,lineNo);
+					break;
 				case '"':{
 					kind = Kind.STRINGLIT;
+					sb.append('"');
 					params.append('"');
 					t= getNext();
 					break;
@@ -215,11 +227,14 @@ public class Scanner {
 					throw new LexicalException("Error :- Invalid token found as "+a+" in line: "+ lineNo + " and position:"+numPos);	
 					}
 					if(numPos!=testString.length()-1) {
-						return getNext();
-					}
+						t= getNext();
+					}else {kind = Kind.START;}
 					
 				}
-				}break;
+				}
+				kind = Kind.START;
+				checkForKeyWords(t);
+				break;
 			case COLON :
 				{
 					if(Character.compare(':', a) ==0) {
@@ -329,6 +344,9 @@ public class Scanner {
 				}else if(Character.compare(']', a)==0) {
 					kind = Kind.START;
 				}
+				else if(Character.compare(',', a)==0) {
+					kind = Kind.START;
+				}
 				else if(Character.compare('.', a)==0) {
 					kind = Kind.START;
 				}
@@ -400,6 +418,8 @@ public class Scanner {
 				}
 				else if(Character.compare('=', a)==0) {
 					kind = Kind.START;
+				}else if(Character.compare(')', a)==0) {
+					kind = Kind.START;
 				}
 				
 				break;
@@ -411,6 +431,7 @@ public class Scanner {
 						throw new LexicalException("Invalid Number of quotes in the input");
 					}
 					kind = Kind.START;
+					sb.append('"');
 					t = new Token(STRINGLIT,sb.toString(),numPos,lineNo);
 				}
 				else if(Character.compare('\'', a)==0){ 	//proper checking for opening and closing of quotes
@@ -508,11 +529,16 @@ public class Scanner {
 				}
 				else {
 					kind=Kind.START;
+					boolean lf = false;
 					while(numPos!=testString.length()-1) {
 												numPos+=1;
-											if(Character.compare('\\',testString.charAt(numPos))!=0 && (Character.compare('n', testString.charAt(numPos))==0)||
-							Character.compare('r', testString.charAt(numPos))==0){
+											if(Character.compare('\\',testString.charAt(numPos))==0){
+												lf = true;
+											}
+											else if(lf && (Character.compare('n', testString.charAt(numPos))==0 || Character.compare('r', testString.charAt(numPos))==0)) {
 								break;
+							}else {
+								lf = false;
 							}
 							
 					}
@@ -660,7 +686,7 @@ public class Scanner {
 		if(!"".equals(params.toString())) {
 			throw new LexicalException("Invalid token due to incomplete quotes");
 		}
-		if(!t.kind.equals(STRINGLIT)) {checkForKeyWords(t);}
+		if(!t.kind.equals(STRINGLIT)) {t = checkForKeyWords(t);}
 		return t;
 }
 
@@ -674,7 +700,7 @@ public class Scanner {
 		return params;
 	}
 
-	private void checkForKeyWords(Token t) {
+	private Token checkForKeyWords(Token t) {
 		if(t.kind.equals(NAME)) {
 			switch(t.text){
 				case "and": t = new Token(KW_and,t.text,numPos,lineNo);break;
@@ -701,6 +727,7 @@ public class Scanner {
 				
 			}
 		}
+		return t;
 	}
 
 

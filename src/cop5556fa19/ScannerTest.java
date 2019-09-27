@@ -722,7 +722,7 @@ class ScannerTest {
 		assertEquals(t.text,"def");
 	}
 	
-	@Test
+	//@Test
 	void test44() throws Exception{	// "a\nb" and 'a\nb'
 
 		String file = "testInputFiles\\test2.input"; 
@@ -779,14 +779,192 @@ class ScannerTest {
 		assertEquals(t.text,"EOF");
 	}
 	
-	@Test
-	void test48() throws Exception{
+	//@Test 
+		void test48() throws Exception{ //-2
+
+			String file = "testInputFiles\\test2.input"; 
+			Reader r = new BufferedReader(new FileReader(file));
+			Scanner s = new Scanner(r);
+			Token t;
+			show(t=s.getNext());
+			assertEquals(t.kind,OP_MINUS);
+			assertEquals(t.text,"-");
+			show(t=s.getNext());
+			assertEquals(t.kind,INTLIT);
+			assertEquals(t.text,"2");
+			show(t=s.getNext());
+			assertEquals(t.kind,EOF);
+			assertEquals(t.text,"EOF");
+		}
+	
+	//@Test
+	void test49() throws Exception{	// "a\nb" and 'a\nb'
+
+		String file = "testInputFiles\\test2.input"; 
+		Reader r = new BufferedReader(new FileReader(file));
+		Scanner s = new Scanner(r);
+		Token t;
+        show(t=s.getNext());
+        assertEquals(t.kind,NAME);
+		assertEquals(t.text,"a");
+		show(t=s.getNext());
+        assertEquals(t.kind,ASSIGN);
+		assertEquals(t.text,"=");
+		show(t=s.getNext());
+        assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"v");
+		show(t=s.getNext());
+	}
+	
+	//@Test 
+		void test50() throws Exception{ //-*2
+
+			String file = "testInputFiles\\test2.input"; 
+			Reader r = new BufferedReader(new FileReader(file));
+			Scanner s = new Scanner(r);
+			Token t;
+			show(t=s.getNext());
+			assertEquals(t.kind,OP_MINUS);
+			assertEquals(t.text,"-");
+			show(t=s.getNext());
+			assertEquals(t.kind,OP_TIMES);
+			assertEquals(t.text,"*");
+			show(t=s.getNext());
+			assertEquals(t.kind,INTLIT);
+			assertEquals(t.text,"2");
+			show(t=s.getNext());
+			assertEquals(t.kind,EOF);
+			assertEquals(t.text,"EOF");
+		}
+		//@Test 
+		void test51() throws Exception{ //"string"
 
 		String file = "testInputFiles\\test2.input"; 
 		Reader r = new BufferedReader(new FileReader(file));
 		Scanner s = new Scanner(r);
 		Token t;
 		show(t=s.getNext());
-        
-	}
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"\"string\"");
+		show(t=s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+				}
+		//@Test 
+		void test52() throws Exception{ //"a"|"b"
+
+		String file = "testInputFiles\\test2.input"; 
+		Reader r = new BufferedReader(new FileReader(file));
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t=s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"\"a\"");
+		show(t=s.getNext());
+		assertEquals(t.kind,BIT_OR);
+		assertEquals(t.text,"|");
+		show(t=s.getNext());
+		assertEquals(t.kind,STRINGLIT);
+		assertEquals(t.text,"\"b\"");
+		show(t=s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+		
+				}
+		//@Test 
+		void test53() throws Exception{ //(1+2)*3
+
+		String file = "testInputFiles\\test2.input"; 
+		Reader r = new BufferedReader(new FileReader(file));
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t=s.getNext());
+		assertEquals(t.kind,LPAREN);
+		assertEquals(t.text,"(");
+		show(t=s.getNext());
+		assertEquals(t.kind,NAME);
+		assertEquals(t.text,"a");
+		show(t=s.getNext());
+		assertEquals(t.kind,OP_PLUS);
+		assertEquals(t.text,"+");
+		show(t=s.getNext());
+		assertEquals(t.kind,NAME);
+		assertEquals(t.text,"b");
+		show(t=s.getNext());
+		assertEquals(t.kind,RPAREN);
+		assertEquals(t.text,")");
+		show(t=s.getNext());
+		assertEquals(t.kind,OP_TIMES);
+		assertEquals(t.text,"*");
+		show(t=s.getNext());
+		assertEquals(t.kind,NAME);
+		assertEquals(t.text,"c");
+		
+				}
+		//@Test 
+		void test54() throws Exception{ //aaaa--comment\n1234--comment\r\nbbbb
+
+		String file = "testInputFiles\\test2.input"; 
+		Reader r = new BufferedReader(new FileReader(file));
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t=s.getNext());
+		assertEquals(t.kind,NAME);
+		assertEquals(t.text,"aaaa");
+		show(t=s.getNext());
+		assertEquals(t.kind,INTLIT);
+		assertEquals(t.text,"1234");
+		show(t=s.getNext());
+		assertEquals(t.kind,NAME);
+		assertEquals(t.text,"bbbb");
+		show(t=s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+		show(t=s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+		show(t=s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+		show(t=s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+		
+				}
+		@Test 
+		void test55() throws Exception{ //function (as,bs,...)
+
+		String file = "testInputFiles\\test2.input"; 
+		Reader r = new BufferedReader(new FileReader(file));
+		Scanner s = new Scanner(r);
+		Token t;
+		show(t=s.getNext());
+		assertEquals(t.kind,KW_function);
+		assertEquals(t.text,"function");
+		show(t=s.getNext());
+		assertEquals(t.kind,LPAREN);
+		assertEquals(t.text,"(");
+		show(t=s.getNext());
+		assertEquals(t.kind,NAME);
+		assertEquals(t.text,"as");
+		show(t=s.getNext());
+		assertEquals(t.kind,COMMA);
+		assertEquals(t.text,",");
+		show(t=s.getNext());
+		assertEquals(t.kind,NAME);
+		assertEquals(t.text,"bs");
+		show(t=s.getNext());
+		assertEquals(t.kind,COMMA);
+		assertEquals(t.text,",");
+		show(t=s.getNext());
+		assertEquals(t.kind,DOTDOTDOT);
+		assertEquals(t.text,"...");
+		show(t=s.getNext());
+		assertEquals(t.kind,RPAREN);
+		assertEquals(t.text,")");
+		show(t=s.getNext());
+		assertEquals(t.kind,EOF);
+		assertEquals(t.text,"EOF");
+		
+				}
 }
